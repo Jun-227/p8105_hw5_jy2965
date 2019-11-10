@@ -7,7 +7,6 @@ output: github_document
 
 ```{r setup, include=FALSE}
 library(tidyverse)
-library(plyr)
 library(rvest)
 knitr::opts_chunk$set(
 	echo = TRUE,
@@ -71,7 +70,7 @@ I replaeced missiong value based on the instruction and generated a new dataset 
 ## Problem 2
 
 ```{r}
-ldply(.data = "./data/hw5_data.zip", .fun = unzip, exdir= "./")
+plyr::ldply(.data = "./data/hw5_data.zip", .fun = unzip, exdir= "./")
 pb2_data = as.data.frame(list.files(path = "./data/", pattern = "*.csv")) 
 colnames(pb2_data)[1] = "file_names"
 read_and_tidy = function(file_names){
@@ -148,7 +147,7 @@ for (i in 1:7) {
   model_beta1[[i]] %>% 
   mutate(reject = ifelse(p_value<0.05, 1, 0)) %>% 
   group_by(reject) %>% 
-  dplyr::summarize(n = n()) %>% 
+  summarize(n = n()) %>% 
   mutate(proportion = n/sum(n)) %>% 
   filter(reject==1)
 }
